@@ -8,7 +8,7 @@ const secret = process.env.JWT_SECRET || 'your-secret-key';
 const token = jwt.sign(
     {
         adminId: 1,
-        email: 'admin@solitaire.com',
+        email: 'admin@fxbrokersuite.com',
         role: 'superadmin'
     },
     secret,

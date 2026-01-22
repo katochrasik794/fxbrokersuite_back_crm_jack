@@ -5,7 +5,7 @@ import { sendEmail } from '../services/email.js';
 import { sendTicketCreatedEmail, sendTicketResponseEmail } from '../services/templateEmail.service.js';
 
 const router = express.Router();
-const SUPPORT_EMAIL = process.env.SUPPORT_EMAIL || 'support@solitairemarkets.me';
+const SUPPORT_EMAIL = process.env.SUPPORT_EMAIL || 'support@fxbrokersuite.com';
 
 /**
  * GET /api/support

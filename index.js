@@ -212,7 +212,7 @@ syncAllCommissions(); // Initial run
 setInterval(syncAllCommissions, 15 * 60 * 1000);
 
 // Middleware
-// CORS: fully open for all origins (including https://portal.solitairemarkets.com)
+// CORS: fully open for all origins (including https://portal.fxbrokersuite.com)
 // The request Origin will be reflected back in Access-Control-Allow-Origin.
 // If you later want to restrict origins, this block should be updated accordingly.
 app.use(cors({
@@ -256,7 +256,7 @@ app.head('/', (req, res) => {
 app.get('/', (req, res) => {
   res.json({
     status: 'ok',
-    message: 'Solitaire CRM API Server',
+    message: 'FxBrokerSuite CRM API Server',
     version: '1.0.0'
   });
 });

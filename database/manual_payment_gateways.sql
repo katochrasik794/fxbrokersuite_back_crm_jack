@@ -71,7 +71,7 @@ CREATE TRIGGER update_manual_gateways_updated_at BEFORE UPDATE ON manual_payment
 -- VALUES (
 --     'UPI',
 --     'UPI PAYMENT',
---     '{"vpa": "payments@solitaire"}',
+--     '{"vpa": "payments@fxbrokersuite"}',
 --     TRUE,
 --     1
 -- );
@@ -79,9 +79,9 @@ CREATE TRIGGER update_manual_gateways_updated_at BEFORE UPDATE ON manual_payment
 -- USDT TRC20 Example
 -- INSERT INTO manual_payment_gateways (type, name, type_data, is_active, display_order)
 -- VALUES (
---     'USDT_TRC20',
---     'USDT TRC20',
---     '{"address": "Txxxxxxxxxxxxxxxxxxxxxxxxxxxxx", "network": "TRC20"}',
+--     'Crypto',
+--     'USDT (TRC20)',
+--     '{"wallet_address": "T9yD14Nj9j7xAB4dbGeiX9h8veHshahbsj", "network": "TRC20"}',
 --     TRUE,
 --     2
 -- );
@@ -91,7 +91,7 @@ CREATE TRIGGER update_manual_gateways_updated_at BEFORE UPDATE ON manual_payment
 -- VALUES (
 --     'Bank_Transfer',
 --     'Bank Transfer',
---     '{"account_number": "1234567890", "ifsc": "BANK0001234", "bank_name": "Example Bank", "account_holder": "Solitaire Markets"}',
+--     '{"account_number": "1234567890", "ifsc": "BANK0001234", "bank_name": "Example Bank", "account_holder": "FxBrokerSuite"}',
 --     TRUE,
 --     3
 -- );

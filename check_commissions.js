@@ -2,7 +2,7 @@ import pg from 'pg';
 const { Pool } = pg;
 
 const pool = new Pool({
-    connectionString: 'postgresql://postgres:postgres@localhost:5432/solitaire_crm'
+    connectionString: 'postgresql://postgres:postgres@localhost:5432/fxbrokersuite_crm'
 });
 
 async function checkData() {

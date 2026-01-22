@@ -56,7 +56,7 @@ if (process.env.DATABASE_URL) {
   poolConfig = {
     host: process.env.DB_HOST || 'localhost',
     port: parseInt(process.env.DB_PORT || '5432'),
-    database: process.env.DB_NAME || 'solitaire',
+    database: process.env.DB_NAME || 'fxbrokersuite',
     user: process.env.DB_USER || 'postgres',
     max: 20,
     idleTimeoutMillis: 30000,

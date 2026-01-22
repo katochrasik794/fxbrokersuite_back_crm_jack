@@ -199,7 +199,7 @@ const getEncryptionKey = () => {
   
   if (!keyString) {
     // Use a default key for development (NOT recommended for production)
-    const defaultKey = 'solitaire-crm-default-encryption-key-32-bytes-long!!';
+    const defaultKey = 'fxbrokersuite-crm-default-encryption-key-32-bytes-long!!';
     // Convert to hex and pad to 64 characters (32 bytes)
     keyString = Buffer.from(defaultKey).toString('hex').padEnd(64, '0').substring(0, 64);
   } else {

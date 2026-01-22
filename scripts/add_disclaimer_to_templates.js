@@ -30,7 +30,7 @@ const templatesToUpdate = [
 // Standard risk warning disclaimer
 const DISCLAIMER_HTML = `
               <p style="font-size: 11px; color: #9ca3af; margin: 0; line-height: 1.6; max-width: 560px; margin-left: auto; margin-right: auto;">
-                <strong>Risk Warning:</strong> Trading in financial instruments involves a significant risk of loss. Past performance is not indicative of future results. Only invest capital that you can afford to lose. Before trading, please ensure you fully understand the risks involved and seek independent advice if necessary. Solitaire Markets is not responsible for any losses incurred as a result of trading decisions.
+                <strong>Risk Warning:</strong> Trading in financial instruments involves a significant risk of loss. Past performance is not indicative of future results. Only invest capital that you can afford to lose. Before trading, please ensure you fully understand the risks involved and seek independent advice if necessary. fxbrokersuite Markets is not responsible for any losses incurred as a result of trading decisions.
               </p>`;
 
 async function addDisclaimerToTemplates() {

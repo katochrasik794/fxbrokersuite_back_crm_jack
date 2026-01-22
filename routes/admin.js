@@ -2882,7 +2882,7 @@ router.post('/users/:id/accounts/create', authenticateAdmin, async (req, res, ne
     // Generate passwords
     const mainPassword = generateRandomPassword(12);
     const investorDigits = Math.floor(100 + Math.random() * 900);
-    const investorPassword = `SolitaireINV@${investorDigits}`;
+    const investorPassword = `fxbrokersuiteINV@${investorDigits}`;
 
     // Prepare user data
     const accountName = `${user.first_name || ''} ${user.last_name || ''}`.trim() || 'New Client Account';
@@ -2963,7 +2963,7 @@ router.post('/users/:id/accounts/create', authenticateAdmin, async (req, res, ne
     const encryptedInvestorPassword = encryptPassword(investorPassword);
 
     // Determine trading server
-    const tradingServer = isDemo ? 'Solitaire Markets-Demo' : 'Solitaire Markets-Live';
+    const tradingServer = isDemo ? 'fxbrokersuite Markets-Demo' : 'fxbrokersuite Markets-Live';
 
     // Determine account type
     const accountType = mt5Group.dedicated_name || mt5Group.group_name || 'standard';
@@ -5154,7 +5154,7 @@ router.post('/mt5/assign', authenticateAdmin, async (req, res, next) => {
           `INSERT INTO trading_accounts (
             user_id, account_number, platform, account_type, currency,
             leverage, account_status, trading_server, master_password, name, created_at
-          ) VALUES ($1, $2, 'MT5', $3, 'USD', $4, 'active', 'Solitaire Markets-Live', $5, $6, NOW())
+          ) VALUES ($1, $2, 'MT5', $3, 'USD', $4, 'active', 'fxbrokersuite Markets-Live', $5, $6, NOW())
           RETURNING *`,
           [
             userId,
@@ -7724,10 +7724,10 @@ router.post('/send-emails', authenticateAdmin, async (req, res) => {
 
           // Replace standard variables
           // Get logo URL - use actual URL for email templates
-          const logoUrl = getLogoUrl(); // Returns: https://portal.solitairemarkets.com/logo.svg
+          const logoUrl = getLogoUrl(); // Returns: https://portal.fxbrokersuite.com/logo.png
 
           // Get frontend URL - use live URL as default
-          const frontendUrl = process.env.FRONTEND_URL || 'https://portal.solitairemarkets.com';
+          const frontendUrl = process.env.FRONTEND_URL || 'https://portal.fxbrokersuite.com';
           const dashboardUrl = `${frontendUrl}/user/dashboard`;
           const supportUrl = `${frontendUrl}/user/support`; // Correct support URL
 
@@ -7738,12 +7738,12 @@ router.post('/send-emails', authenticateAdmin, async (req, res) => {
             subject: finalSubject,
             content: body || '',
             currentYear: new Date().getFullYear(),
-            companyName: 'Solitaire Markets',
-            companyEmail: 'support@solitairemarkets.me',
+            companyName: 'FxBrokerSuite',
+            companyEmail: 'support@fxbrokersuite.com',
             dashboardUrl: dashboardUrl,
             supportUrl: supportUrl, // Support page URL
             frontendUrl: frontendUrl,
-            logoUrl: logoUrl // Use actual URL: https://portal.solitairemarkets.com/logo.svg
+            logoUrl: logoUrl // Use actual URL: https://portal.fxbrokersuite.com/logo.png
           };
 
           // Replace all variables (handle both {{key}} and {{ key }} formats, case-insensitive)
@@ -7760,7 +7760,9 @@ router.post('/send-emails', authenticateAdmin, async (req, res) => {
           htmlContent = htmlContent.replace(/\{\{\s*LOGO_URL\s*\}\}/gi, logoUrl);
 
           // Replace any CID references with actual URL
-          htmlContent = htmlContent.replace(/cid:solitaire-logo/gi, logoUrl);
+          htmlContent = htmlContent.replace(/cid:fxbrokersuite-logo/gi, logoUrl);
+          htmlContent = htmlContent.replace(/cid:fxbrokersuite-logo/gi, logoUrl);
+          htmlContent = htmlContent.replace(/cid:fxbrokersuite-logo/gi, logoUrl);
 
           // Replace any base64 logo URLs with actual URL
           const base64Pattern = /data:image\/svg\+xml;base64,[^"'\s>]+/gi;
@@ -7776,19 +7778,25 @@ router.post('/send-emails', authenticateAdmin, async (req, res) => {
           htmlContent = htmlContent.replace(/\{\{\s*DASHBOARD_URL\s*\}\}/gi, dashboardUrl);
 
           // CRITICAL: Replace all hardcoded wrong URLs with correct dashboard URL
-          // Replace any solitairemarkets.me URLs (wrong domain) with correct dashboard URL
-          htmlContent = htmlContent.replace(/https?:\/\/solitairemarkets\.me\/[^"'\s>]*/gi, dashboardUrl);
-          htmlContent = htmlContent.replace(/https?:\/\/www\.solitairemarkets\.me\/[^"'\s>]*/gi, dashboardUrl);
+          // Replace any fxbrokersuitemarkets.me URLs (wrong domain) with correct dashboard URL
+          htmlContent = htmlContent.replace(/https?:\/\/fxbrokersuitemarkets\.me\/[^"'\s>]*/gi, dashboardUrl);
+          htmlContent = htmlContent.replace(/https?:\/\/www\.fxbrokersuitemarkets\.me\/[^"'\s>]*/gi, dashboardUrl);
+          htmlContent = htmlContent.replace(/https?:\/\/fxbrokersuite\.com\/[^"'\s>]*/gi, dashboardUrl);
+          htmlContent = htmlContent.replace(/https?:\/\/fxbrokersuite\.com\/[^"'\s>]*/gi, dashboardUrl);
 
           // Replace any "View Dashboard" or similar links that might have wrong URLs
-          htmlContent = htmlContent.replace(/href=["']https?:\/\/solitairemarkets\.me[^"']*["']/gi, `href="${dashboardUrl}"`);
-          htmlContent = htmlContent.replace(/href=["']https?:\/\/www\.solitairemarkets\.me[^"']*["']/gi, `href="${dashboardUrl}"`);
+          htmlContent = htmlContent.replace(/href=["']https?:\/\/fxbrokersuitemarkets\.me[^"']*["']/gi, `href="${dashboardUrl}"`);
+          htmlContent = htmlContent.replace(/href=["']https?:\/\/www\.fxbrokersuitemarkets\.me[^"']*["']/gi, `href="${dashboardUrl}"`);
+          htmlContent = htmlContent.replace(/href=["']https?:\/\/fxbrokersuite\.com[^"']*["']/gi, `href="${dashboardUrl}"`);
+          htmlContent = htmlContent.replace(/href=["']https?:\/\/fxbrokersuite\.com[^"']*["']/gi, `href="${dashboardUrl}"`);
 
           // Also replace any localhost URLs that might be in templates
           htmlContent = htmlContent.replace(/href=["']https?:\/\/localhost[^"']*["']/gi, `href="${dashboardUrl}"`);
 
           // Replace any href attributes that contain "dashboard" but have wrong domain
-          htmlContent = htmlContent.replace(/href=["']([^"']*solitairemarkets\.me[^"']*dashboard[^"']*)["']/gi, `href="${dashboardUrl}"`);
+          htmlContent = htmlContent.replace(/href=["']([^"']*fxbrokersuitemarkets\.me[^"']*dashboard[^"']*)["']/gi, `href="${dashboardUrl}"`);
+          htmlContent = htmlContent.replace(/href=["']([^"']*fxbrokersuite\.com[^"']*dashboard[^"']*)["']/gi, `href="${dashboardUrl}"`);
+          htmlContent = htmlContent.replace(/href=["']([^"']*fxbrokersuite\.com[^"']*dashboard[^"']*)["']/gi, `href="${dashboardUrl}"`);
 
           // CRITICAL: Fix incorrect support URLs (should be /user/support, not /user/dashboard/support)
           htmlContent = htmlContent.replace(/\/user\/dashboard\/support/gi, supportUrl);
@@ -7808,7 +7816,7 @@ router.post('/send-emails', authenticateAdmin, async (req, res) => {
 
           // Ensure logo is always present - check if logo image exists in HTML
           const hasLogoImg = /<img[^>]*src[^>]*>/i.test(htmlContent) &&
-            (htmlContent.toLowerCase().includes('logo') || htmlContent.toLowerCase().includes('solitaire') || htmlContent.includes(logoUrl));
+            (htmlContent.toLowerCase().includes('logo') || htmlContent.toLowerCase().includes('fxbrokersuite') || htmlContent.toLowerCase().includes('fxbrokersuite') || htmlContent.includes(logoUrl));
 
           if (!hasLogoImg) {
             console.log('📧 Adding logo to template that doesn\'t have one:', selectedTemplate.name);
@@ -7816,13 +7824,13 @@ router.post('/send-emails', authenticateAdmin, async (req, res) => {
             const bodyMatch = htmlContent.match(/<body[^>]*>/i);
             if (bodyMatch) {
               const logoHtml = `<div style="text-align: center; margin: 20px 0; padding: 20px 0;">
-                <img src="${logoUrl}" alt="Solitaire Markets" style="height: 50px; max-width: 200px; display: block; margin: 0 auto;" />
+                <img src="${logoUrl}" alt="FxBrokerSuite" style="height: 50px; max-width: 200px; display: block; margin: 0 auto;" />
               </div>`;
               htmlContent = htmlContent.replace(bodyMatch[0], bodyMatch[0] + logoHtml);
             } else {
               // If no body tag, add at the very beginning
               htmlContent = `<div style="text-align: center; margin: 20px 0; padding: 20px 0;">
-                <img src="${logoUrl}" alt="Solitaire Markets" style="height: 50px; max-width: 200px; display: block; margin: 0 auto;" />
+                <img src="${logoUrl}" alt="fxbrokersuite Markets" style="height: 50px; max-width: 200px; display: block; margin: 0 auto;" />
               </div>` + htmlContent;
             }
           }
@@ -7833,12 +7841,12 @@ router.post('/send-emails', authenticateAdmin, async (req, res) => {
             htmlContent = `
                         <div style="font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: 0 auto;">
                             <div style="text-align: center; margin-bottom: 20px;">
-                              <img src="${logoUrl}" alt="Solitaire Markets" style="height: 50px; margin-bottom: 10px;" />
+                              <img src="${logoUrl}" alt="fxbrokersuite Markets" style="height: 50px; margin-bottom: 10px;" />
                             </div>
                             ${body}
                             <hr style="border: none; border-top: 1px solid #ddd; margin: 20px 0;">
                             <p style="font-size: 12px; color: #666; text-align: center;">
-                              © ${new Date().getFullYear()} Solitaire Markets. All rights reserved.
+                              © ${new Date().getFullYear()} fxbrokersuite Markets. All rights reserved.
                             </p>
                         </div>
                     `;
@@ -8238,13 +8246,13 @@ router.post('/email-templates/:id/send-test', authenticateAdmin, async (req, res
     }
 
     // Also replace standard variables if not provided
-    const logoUrl = getLogoUrl(); // Returns: https://portal.solitairemarkets.com/logo.svg
-    const frontendUrl = process.env.FRONTEND_URL || 'https://portal.solitairemarkets.com';
+    const logoUrl = getLogoUrl(); // Returns: https://portal.fxbrokersuite.com/logo.png
+    const frontendUrl = process.env.FRONTEND_URL || 'https://portal.fxbrokersuite.com';
     const dashboardUrl = `${frontendUrl}/user/dashboard`;
 
     const standardVars = {
-      logoUrl: logoUrl, // Use actual URL: https://portal.solitairemarkets.com/logo.svg
-      companyEmail: 'support@solitairemarkets.me',
+      logoUrl: logoUrl, // Use actual URL: https://portal.fxbrokersuite.com/logo.png
+      companyEmail: 'support@fxbrokersuite.com',
       dashboardUrl: dashboardUrl,
       frontendUrl: frontendUrl,
       currentYear: new Date().getFullYear(),
@@ -8265,7 +8273,8 @@ router.post('/email-templates/:id/send-test', authenticateAdmin, async (req, res
     htmlContent = htmlContent.replace(/\{\{\s*LOGO_URL\s*\}\}/gi, logoUrl);
 
     // Replace any CID references with actual URL
-    htmlContent = htmlContent.replace(/cid:solitaire-logo/gi, logoUrl);
+    htmlContent = htmlContent.replace(/cid:fxbrokersuite-logo/gi, logoUrl);
+    htmlContent = htmlContent.replace(/cid:fxbrokersuite-logo/gi, logoUrl);
 
     // Replace any base64 logo URLs with actual URL
     const base64Pattern = /data:image\/svg\+xml;base64,[^"'\s>]+/gi;
@@ -8279,13 +8288,13 @@ router.post('/email-templates/:id/send-test', authenticateAdmin, async (req, res
 
     // Ensure logo is always present in test emails
     const hasLogoImg = /<img[^>]*src[^>]*>/i.test(htmlContent) &&
-      (htmlContent.toLowerCase().includes('logo') || htmlContent.toLowerCase().includes('solitaire') || htmlContent.includes(logoUrl));
+      (htmlContent.toLowerCase().includes('logo') || htmlContent.toLowerCase().includes('fxbrokersuite') || htmlContent.toLowerCase().includes('fxbrokersuite') || htmlContent.includes(logoUrl));
 
     if (!hasLogoImg) {
       const bodyMatch = htmlContent.match(/<body[^>]*>/i);
       if (bodyMatch) {
         const logoHtml = `<div style="text-align: center; margin: 20px 0; padding: 20px 0;">
-          <img src="${logoUrl}" alt="Solitaire Markets" style="height: 50px; max-width: 200px; display: block; margin: 0 auto;" />
+          <img src="${logoUrl}" alt="FxBrokerSuite" style="height: 50px; max-width: 200px; display: block; margin: 0 auto;" />
         </div>`;
         htmlContent = htmlContent.replace(bodyMatch[0], bodyMatch[0] + logoHtml);
       }
@@ -8352,8 +8361,8 @@ router.post('/email-templates/preview', authenticateAdmin, async (req, res) => {
       subject: 'Email Subject',
       content: 'This is a sample content for preview.',
       currentYear: new Date().getFullYear(),
-      companyName: 'Solitaire Markets',
-      companyEmail: 'support@solitairemarkets.me',
+      companyName: 'fxbrokersuite Markets',
+      companyEmail: 'support@fxbrokersuite.com',
       logoUrl: logoUrl,
       login: '123456',
       accountLogin: '123456',
@@ -8396,7 +8405,7 @@ router.post('/email-templates/preview', authenticateAdmin, async (req, res) => {
       const bodyMatch = previewHtml.match(/<body[^>]*>/i);
       if (bodyMatch) {
         const logoHtml = `<div style="text-align: center; margin: 20px 0; padding: 20px 0;">
-          <img src="${logoUrl}" alt="Solitaire Markets" style="height: 50px; max-width: 200px; display: block; margin: 0 auto;" />
+          <img src="${logoUrl}" alt="FxBrokerSuite" style="height: 50px; max-width: 200px; display: block; margin: 0 auto;" />
         </div>`;
         previewHtml = previewHtml.replace(bodyMatch[0], bodyMatch[0] + logoHtml);
       }
@@ -9059,4 +9068,5 @@ router.post('/ib-requests/cross-login', authenticateAdmin, async (req, res) => {
 });
 
 export default router;
+
 

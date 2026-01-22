@@ -497,9 +497,9 @@ router.post('/create', authenticate, async (req, res, next) => {
     const masterPasswordValue = masterPassword;
     // Main password (internal only): generate random
     const mainPassword = generateRandomPassword(12);
-    // Investor password: fixed prefix + random 3‑digit number, e.g. SolitaireINV@899
+    // Investor password: fixed prefix + random 3‑digit number, e.g. fxbrokersuiteINV@899
     const investorDigits = Math.floor(100 + Math.random() * 900);
-    const investorPassword = `SolitaireINV@${investorDigits}`;
+    const investorPassword = `fxbrokersuiteINV@${investorDigits}`;
 
     // Prepare user data
     const accountName = `${user.first_name || ''} ${user.last_name || ''}`.trim() || 'New Client Account';
@@ -588,7 +588,7 @@ router.post('/create', authenticate, async (req, res, next) => {
     const encryptedInvestorPassword = encryptPassword(finalInvestorPassword);
 
     // Determine trading server
-    const tradingServer = isDemo ? 'Solitaire Markets-Demo' : 'Solitaire Markets-Live';
+    const tradingServer = isDemo ? 'fxbrokersuite Markets-Demo' : 'fxbrokersuite Markets-Live';
 
     // Determine account type based on group
     // Use the dedicated name if available, otherwise fall back to group name or 'standard'

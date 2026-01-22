@@ -49,7 +49,7 @@ async function setupAdminTables() {
           updated_at
         ) VALUES (
           'admin',
-          'admin@Solitaire.com',
+          'admin@fxbrokersuite.com',
           '$2y$10$pDKYJsFkr457Fxnp990V/.cKXIpNNAWBZTtbnshZMUfhrUilE8Vbu',
           'admin',
           TRUE,
@@ -77,7 +77,7 @@ async function setupAdminTables() {
 
     // Verify admin was created
     const verifyResult = await pool.query(
-      "SELECT id, username, email, admin_role, is_active FROM admin WHERE email = 'admin@Solitaire.com'"
+      "SELECT id, username, email, admin_role, is_active FROM admin WHERE email = 'admin@fxbrokersuite.com'"
     );
 
     if (verifyResult.rows.length > 0) {

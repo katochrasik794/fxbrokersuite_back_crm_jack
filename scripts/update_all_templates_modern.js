@@ -14,15 +14,15 @@ const pool = new Pool({
     ssl: { rejectUnauthorized: false },
 });
 
-// Solitaire Markets Branding
-const BRAND_NAME = 'Solitaire Markets';
+// FxBrokerSuite Branding
+const BRAND_NAME = 'FxBrokerSuite';
 const PRIMARY_COLOR = '#D4AF37'; // Gold
 const SECONDARY_COLOR = '#081428'; // Dark Blue
 const ACCENT_COLOR = '#E6C200'; // Bright Gold
 const HEADER_BG_COLOR = '#2c3e50'; // Modern Slate Blue
 const HEADER_GRADIENT = 'linear-gradient(135deg, #34495e 0%, #2c3e50 50%, #1a252f 100%)'; // Elegant gradient
-const COMPANY_EMAIL = 'support@solitairemarkets.me';
-const FRONTEND_URL = process.env.FRONTEND_URL || 'https://solitairemarkets.me';
+const COMPANY_EMAIL = 'support@fxbrokersuite.com';
+const FRONTEND_URL = process.env.FRONTEND_URL || 'https://portal.fxbrokersuite.com';
 
 // Common email template structure helper
 const getEmailTemplate = (title, subtitle, content, variables = []) => {

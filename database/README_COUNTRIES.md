@@ -17,7 +17,7 @@ The `countries` table has been created with the following structure:
 ### Option 1: Run the Complete SQL File
 
 ```bash
-psql -U postgres -d solitaire -f server/database/countries_table.sql
+psql -U postgres -d fxbrokersuite -f server/database/countries_table.sql
 ```
 
 ### Option 2: Run Manually in PostgreSQL

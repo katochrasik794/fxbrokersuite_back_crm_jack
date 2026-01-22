@@ -1,6 +1,6 @@
 /**
  * Script to fix hardcoded URLs in email templates
- * This replaces all solitairemarkets.me URLs with portal.solitairemarkets.com
+ * This replaces all fxbrokersuitemarkets.me URLs with portal.fxbrokersuitemarkets.com
  * Run with: node scripts/fix_email_template_urls.js
  */
 
@@ -9,13 +9,15 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
-const CORRECT_DOMAIN = 'https://portal.solitairemarkets.com';
+const CORRECT_DOMAIN = 'https://portal.fxbrokersuite.com';
 const DASHBOARD_URL = `${CORRECT_DOMAIN}/user/dashboard`;
 const WRONG_DOMAINS = [
-  'https://solitairemarkets.me',
-  'http://solitairemarkets.me',
-  'https://www.solitairemarkets.me',
-  'http://www.solitairemarkets.me',
+  'https://fxbrokersuitemarkets.me',
+  'http://fxbrokersuitemarkets.me',
+  'https://www.fxbrokersuitemarkets.me',
+  'http://www.fxbrokersuitemarkets.me',
+  'https://portal.fxbrokersuitemarkets.com',
+  'http://portal.fxbrokersuitemarkets.com',
   'http://localhost:3000',
   'https://localhost:3000'
 ];

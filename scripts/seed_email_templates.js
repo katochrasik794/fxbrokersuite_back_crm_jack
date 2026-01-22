@@ -14,13 +14,13 @@ const pool = new Pool({
     ssl: { rejectUnauthorized: false },
 });
 
-// Solitaire Markets Branding
-const BRAND_NAME = 'Solitaire Markets';
-const LOGO_URL = 'https://solitairemarkets.me/assets/images/logo.png'; // Assuming this exists or placeholder
+// FxBrokerSuite Branding
+const BRAND_NAME = 'FxBrokerSuite';
+const LOGO_URL = 'https://portal.fxbrokersuite.com/logo.png'; // Assuming this exists or placeholder
 const PRIMARY_COLOR = '#D4AF37'; // Gold
 const SECONDARY_COLOR = '#000000'; // Black
-const COMPANY_EMAIL = 'support@solitairemarkets.me';
-const COMPANY_URL = 'https://solitairemarkets.me';
+const COMPANY_EMAIL = 'support@fxbrokersuite.com';
+const COMPANY_URL = 'https://portal.fxbrokersuite.com';
 
 const templates = [
     {

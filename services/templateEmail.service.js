@@ -102,10 +102,10 @@ function replaceTemplateVariables(html, variables) {
   if (!html) return '';
   
   let result = html;
-  const logoUrl = getLogoUrl(); // This now returns the actual URL: https://portal.solitairemarkets.com/logo.png
+  const logoUrl = getLogoUrl(); // This now returns the actual URL: https://portal.fxbrokersuite.com/logo.png
   
   // Get frontend URL - use live URL as default
-  const frontendUrl = process.env.FRONTEND_URL || 'https://portal.solitairemarkets.com';
+  const frontendUrl = process.env.FRONTEND_URL || 'https://portal.fxbrokersuite.com';
   // Dashboard URL - will redirect to login if not authenticated, then back to dashboard after login
   const dashboardUrl = `${frontendUrl}/user/dashboard`;
   const supportUrl = `${frontendUrl}/user/support`; // Correct support URL (not /user/dashboard/support)
@@ -113,9 +113,9 @@ function replaceTemplateVariables(html, variables) {
   
   // Default variables - use actual logo URL
   const defaultVars = {
-    logoUrl: logoUrl, // Use actual URL: https://portal.solitairemarkets.com/logo.png
-    companyName: 'Solitaire Markets',
-    companyEmail: 'support@solitairemarkets.me',
+    logoUrl: logoUrl, // Use actual URL: https://portal.fxbrokersuite.com/logo.png
+    companyName: 'FxBrokerSuite',
+    companyEmail: 'support@fxbrokersuite.com',
     dashboardUrl: dashboardUrl,
     supportUrl: supportUrl, // Support page URL
     frontendUrl: frontendUrl,
@@ -139,7 +139,8 @@ function replaceTemplateVariables(html, variables) {
   result = result.replace(/\{\{LOGO_URL\}\}/gi, logoUrl);
   
   // Replace any CID references with actual URL
-  result = result.replace(/cid:solitaire-logo/gi, logoUrl);
+  result = result.replace(/cid:fxbrokersuite-logo/gi, logoUrl);
+  result = result.replace(/cid:fxbrokersuite-logo/gi, logoUrl);
   
   // Also replace any base64 logo URLs that might already be in the template
   const LOGO_SVG_BASE64 = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzE2IiBoZWlnaHQ9IjExMCIgdmlld0JveD0iMCAwIDMxNiAxMTAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+';
@@ -163,20 +164,23 @@ function replaceTemplateVariables(html, variables) {
   result = result.replace(/\{\{DASHBOARD_URL\}\}/gi, dashboardUrl);
   
   // CRITICAL: Replace all hardcoded wrong URLs with correct dashboard URL
-  // Replace any solitairemarkets.me URLs (wrong domain) with correct dashboard URL
-  result = result.replace(/https?:\/\/solitairemarkets\.me\/[^"'\s>]*/gi, dashboardUrl);
-  result = result.replace(/https?:\/\/www\.solitairemarkets\.me\/[^"'\s>]*/gi, dashboardUrl);
+  // Replace any fxbrokersuitemarkets.me URLs (wrong domain) with correct dashboard URL
+  result = result.replace(/https?:\/\/fxbrokersuitemarkets\.me\/[^"'\s>]*/gi, dashboardUrl);
+  result = result.replace(/https?:\/\/www\.fxbrokersuitemarkets\.me\/[^"'\s>]*/gi, dashboardUrl);
+  result = result.replace(/https?:\/\/fxbrokersuite\.com\/[^"'\s>]*/gi, dashboardUrl);
   
   // Replace any "View Dashboard" or similar links that might have wrong URLs
   // Look for common link patterns with wrong domains
-  result = result.replace(/href=["']https?:\/\/solitairemarkets\.me[^"']*["']/gi, `href="${dashboardUrl}"`);
-  result = result.replace(/href=["']https?:\/\/www\.solitairemarkets\.me[^"']*["']/gi, `href="${dashboardUrl}"`);
+  result = result.replace(/href=["']https?:\/\/fxbrokersuitemarkets\.me[^"']*["']/gi, `href="${dashboardUrl}"`);
+  result = result.replace(/href=["']https?:\/\/www\.fxbrokersuitemarkets\.me[^"']*["']/gi, `href="${dashboardUrl}"`);
+  result = result.replace(/href=["']https?:\/\/fxbrokersuite\.com[^"']*["']/gi, `href="${dashboardUrl}"`);
   
   // Also replace any localhost URLs that might be in templates
   result = result.replace(/href=["']https?:\/\/localhost[^"']*["']/gi, `href="${dashboardUrl}"`);
   
   // Replace any href attributes that contain "dashboard" but have wrong domain
-  result = result.replace(/href=["']([^"']*solitairemarkets\.me[^"']*dashboard[^"']*)["']/gi, `href="${dashboardUrl}"`);
+  result = result.replace(/href=["']([^"']*fxbrokersuitemarkets\.me[^"']*dashboard[^"']*)["']/gi, `href="${dashboardUrl}"`);
+  result = result.replace(/href=["']([^"']*fxbrokersuite\.com[^"']*dashboard[^"']*)["']/gi, `href="${dashboardUrl}"`);
   
   // CRITICAL: Fix incorrect support URLs (should be /user/support, not /user/dashboard/support)
   // Replace any /dashboard/support with /support
@@ -196,7 +200,7 @@ function replaceTemplateVariables(html, variables) {
   
   // Ensure logo is always present - check if logo image exists in HTML
   const hasLogoImg = /<img[^>]*src[^>]*>/i.test(result) && 
-                    (result.toLowerCase().includes('logo') || result.toLowerCase().includes('solitaire') || result.includes(logoUrl));
+                    (result.toLowerCase().includes('logo') || result.toLowerCase().includes('fxbrokersuite') || result.toLowerCase().includes('fxbrokersuite') || result.includes(logoUrl));
   
   if (!hasLogoImg) {
     console.log('📧 No logo detected in template, injecting logo with URL...');
@@ -204,13 +208,13 @@ function replaceTemplateVariables(html, variables) {
     const bodyMatch = result.match(/<body[^>]*>/i);
     if (bodyMatch) {
       const logoHtml = `<div style="text-align: center; margin: 20px 0; padding: 20px 0;">
-        <img src="${logoUrl}" alt="Solitaire Markets" style="height: 60px; max-width: 250px; display: block; margin: 0 auto;" />
+        <img src="${logoUrl}" alt="FxBrokerSuite" style="height: 60px; max-width: 250px; display: block; margin: 0 auto;" />
       </div>`;
       result = result.replace(bodyMatch[0], bodyMatch[0] + logoHtml);
     } else {
       // If no body tag, add at the very beginning
       result = `<div style="text-align: center; margin: 20px 0; padding: 20px 0;">
-        <img src="${logoUrl}" alt="Solitaire Markets" style="height: 60px; max-width: 250px; display: block; margin: 0 auto;" />
+        <img src="${logoUrl}" alt="FxBrokerSuite" style="height: 60px; max-width: 250px; display: block; margin: 0 auto;" />
       </div>` + result;
     }
   } else {
@@ -221,7 +225,8 @@ function replaceTemplateVariables(html, variables) {
       result = result.replace(/\{\{.*logo.*\}\}/gi, logoUrl);
     }
     // Replace any CID references with actual URL
-    result = result.replace(/cid:solitaire-logo/gi, logoUrl);
+    result = result.replace(/cid:fxbrokersuite-logo/gi, logoUrl);
+    result = result.replace(/cid:fxbrokersuite-logo/gi, logoUrl);
   }
   
   return result;
@@ -254,13 +259,17 @@ export async function sendTemplateEmail(templateName, recipientEmail, variables 
         <body style="font-family: Arial, sans-serif; padding: 20px; background-color: #f5f7fa;">
           <div style="max-width: 600px; margin: 0 auto; background: white; border-radius: 16px; padding: 30px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
             <div style="text-align: center; margin-bottom: 30px;">
-              <img src="${logoUrl}" alt="Solitaire Markets" style="height: 60px; max-width: 250px;" />
+              <img src="${logoUrl}" alt="FxBrokerSuite" style="height: 60px; max-width: 250px;" />
             </div>
             <div style="color: #1f2937;">
-              ${variables.content || 'You have received a notification from Solitaire Markets.'}
+              ${variables.content || 'You have received a notification from FxBrokerSuite.'}
             </div>
-            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e5e7eb; text-align: center; color: #6b7280; font-size: 13px;">
-              © ${new Date().getFullYear()} Solitaire Markets. All rights reserved.
+            <div style="text-align: center; margin-top: 20px; color: #666; font-size: 12px;">
+              <p>&copy; ${new Date().getFullYear()} FxBrokerSuite. All rights reserved.</p>
+              <p>
+                <a href="https://fxbrokersuite.com" style="color: #666; text-decoration: none;">FxBrokerSuite</a> | 
+                <a href="${process.env.FRONTEND_URL || 'https://portal.fxbrokersuite.com'}" style="color: #666; text-decoration: none;">Client Portal</a>
+              </p>
             </div>
           </div>
         </body>
@@ -279,7 +288,7 @@ export async function sendTemplateEmail(templateName, recipientEmail, variables 
     let htmlContent = replaceTemplateVariables(template.html_code, variables);
     
     // Final check: ensure logo is present and properly replaced with actual URL
-    const logoUrl = getLogoUrl(); // Returns: https://portal.solitairemarkets.com/logo.png
+    const logoUrl = getLogoUrl(); // Returns: https://portal.fxbrokersuite.com/logo.png
     const logoPlaceholderRegex = /\{\{.*logo.*\}\}/i;
     if (logoPlaceholderRegex.test(htmlContent)) {
       console.warn(`⚠️ Logo placeholder still found in template "${templateName}", forcing replacement...`);
@@ -287,27 +296,14 @@ export async function sendTemplateEmail(templateName, recipientEmail, variables 
     }
     
     // Replace any CID references with actual URL
-    htmlContent = htmlContent.replace(/cid:solitaire-logo/gi, logoUrl);
+    htmlContent = htmlContent.replace(/cid:fxbrokersuite-logo/gi, logoUrl);
+    htmlContent = htmlContent.replace(/cid:fxbrokersuite-logo/gi, logoUrl);
     
     // Replace any base64 logo URLs with actual URL
     const base64Pattern = /data:image\/svg\+xml;base64,[^"'\s>]+/gi;
     htmlContent = htmlContent.replace(base64Pattern, logoUrl);
     
-    // Verify logo is actually in the HTML (check for URL or logo image tag)
-    const hasActualLogo = htmlContent.includes(logoUrl) || 
-                         (/<img[^>]*src[^>]*>/i.test(htmlContent) && (htmlContent.toLowerCase().includes('logo') || htmlContent.toLowerCase().includes('solitaire')));
-    if (!hasActualLogo) {
-      console.warn(`⚠️ Logo not found in final HTML for template "${templateName}", injecting with URL...`);
-      const logoHtml = `<div style="text-align: center; margin: 20px 0; padding: 20px 0;">
-        <img src="${logoUrl}" alt="Solitaire Markets" style="height: 60px; max-width: 250px; display: block; margin: 0 auto;" />
-      </div>`;
-      const bodyMatch = htmlContent.match(/<body[^>]*>/i);
-      if (bodyMatch) {
-        htmlContent = htmlContent.replace(bodyMatch[0], bodyMatch[0] + logoHtml);
-      } else {
-        htmlContent = logoHtml + htmlContent;
-      }
-    }
+
     
     // Determine subject
     const subject = customSubject || template.name;
@@ -492,7 +488,7 @@ export async function sendTicketCreatedEmail(userEmail, userName, ticketId, subj
       ticketPriority: priority ? priority.charAt(0).toUpperCase() + priority.slice(1) : 'Medium',
       ticketDate: new Date().toLocaleDateString(),
       logoUrl: getLogoUrl(),
-      dashboardUrl: `${process.env.FRONTEND_URL || 'https://portal.solitairemarkets.com'}/user/dashboard`,
+      dashboardUrl: `${process.env.FRONTEND_URL || 'https://portal.fxbrokersuite.com'}/user/dashboard`,
       currentYear: new Date().getFullYear()
     },
     `Support Ticket #${ticketId} Created`
@@ -514,7 +510,7 @@ export async function sendTicketResponseEmail(userEmail, userName, ticketId, sub
       ticketStatus: ticketStatus ? ticketStatus.charAt(0).toUpperCase() + ticketStatus.slice(1) : 'Open',
       adminMessage: adminMessage || 'Please check your dashboard for the full response.',
       logoUrl: getLogoUrl(),
-      dashboardUrl: `${process.env.FRONTEND_URL || 'https://portal.solitairemarkets.com'}/user/dashboard`,
+      dashboardUrl: `${process.env.FRONTEND_URL || 'https://portal.fxbrokersuite.com'}/user/dashboard`,
       currentYear: new Date().getFullYear()
     },
     `Response on Support Ticket #${ticketId}`

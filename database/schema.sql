@@ -1,5 +1,5 @@
 -- Create database (run this manually if database doesn't exist)
--- CREATE DATABASE solitaire;
+-- CREATE DATABASE fxbrokersuite;
 
 -- Users table
 CREATE TABLE IF NOT EXISTS users (
@@ -279,7 +279,7 @@ CREATE TABLE IF NOT EXISTS trading_accounts (
     is_demo BOOLEAN DEFAULT FALSE,
     
     -- Trading Server
-    trading_server VARCHAR(100) DEFAULT 'Solitaire Markets-Live',
+    trading_server VARCHAR(100) DEFAULT 'FxBrokerSuite-Live',
     
     -- MT5 Group Reference
     mt5_group_id INTEGER REFERENCES mt5_groups(id) ON DELETE SET NULL,
